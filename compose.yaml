@@ -1,0 +1,19 @@
+services:
+  nextjs:
+    build:
+      context: ./next/my-app
+    ports:
+      - '3001:3000'
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - nestjs
+
+  nestjs:
+    build:
+      context: ./nest/project-name
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+
