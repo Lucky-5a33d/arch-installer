@@ -52,49 +52,51 @@ function partition_format_mount(){
 		echo "Proceeding with automatic partitioning..."
 		# Add your automatic partitioning logic here
 
-		if [ ! -b "$disk" ]; then
-		echo "Error: $disk is not a valid block device."
-		exit 1
-		fi
-		disk_size=$(lsblk -d $chdisk -o SIZE|sed 'd1')
-		ram_size=$(cat /proc/meminfo|grep MemTotal|awk '{print$2}')
-		swap_part=""
-		root_part=""
-		if [[ $disk_size -gt 20 ]];then 
-			if [[ $ram_size -gt 3900000 ]];then
-				swap_part="n
+# 		if [ ! -b "$disk" ]; then
+# 		echo "Error: $disk is not a valid block device."
+# 		exit 1
+# 		fi
+# 		disk_size=$(lsblk -d $chdisk -o SIZE|sed 'd1')
+# 		ram_size=$(cat /proc/meminfo|grep MemTotal|awk '{print$2}')
+# 		swap_part=""
+# 		root_part=""
+# 		if [[ $disk_size -gt 20 ]];then 
+# 			if [[ $ram_size -gt 3900000 ]];then
+# 				swap_part="n
 				
 				
-				+4G
-				t
-				swap"
+# 				+4G
+# 				t
+# 				swap"
 				
-			elif [[ $ram_size -gt 900000 && $ram_size -lt 3900000  ]]
-				swap_part="n
+# 			elif [[ $ram_size -gt 900000 && $ram_size -lt 3900000  ]]
+# 				swap_part="n
 				
 				
-				+4G
-				t
-				swap"
-			fi
-		else
-			swap_part=
-		fi
-		fdisk "$disk" <<EOF
-g
-n
+# 				+4G
+# 				t
+# 				swap"
+# 			else 
+# 				swap_part=
+# 			fi
+# 		else
+# 			swap_part=
+# 		fi
+# 		fdisk "$disk" <<EOF
+# g
+# n
 
 
-+512M
-t
-uefi
-$swap_part
-n
+# +512M
+# t
+# uefi
+# $swap_part
+# n
 
 
 
-q
-EOF
+# q
+# EOF
 
 partition_format_mount()
 
