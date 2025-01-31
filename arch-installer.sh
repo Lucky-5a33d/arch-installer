@@ -76,8 +76,6 @@ function partition_format_mount(){
 				+4G
 				t
 				swap"
-			else 
-				swap_part=
 			fi
 		else
 			swap_part=
