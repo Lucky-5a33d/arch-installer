@@ -2,7 +2,7 @@
 
 function boot_mode(){
 	#check the UEFI bitness
-	if [[ -d /sys/firmware/efi/fw_platform_size ]];then
+	if [[ -f /sys/firmware/efi/fw_platform_size ]];then
 		UEFI=true
 		echo 'your system booted in UEFI'
 	else
@@ -25,7 +25,7 @@ function partition_format_mount(){
 		echo "$disks_number)$disk"
 	done
 	read -p "what disk you whant to chosss(1...$disks_number) [defult:1]: " disk_num
-	disk_num=${disk_num: -1}
+	disk_num=${disk_num:-1}
 	chdisk="/dev$(echo "$disks" |sed "$disk_num!d")"
 	echo "you choosen disk is $chdisk"
 	
@@ -57,7 +57,7 @@ function partition_format_mount(){
 		exit 1
 		fi
 		disk_size=$(lsblk -d $chdisk -o SIZE|sed 'd1')
-		ram_size=$(cat /proc/memingo|grep MemTotal|awk '{print$2}')
+		ram_size=$(cat /proc/meminfo|grep MemTotal|awk '{print$2}')
 		swap_part=""
 		root_part=""
 		if [[ $disk_size -gt 20 ]];then 
