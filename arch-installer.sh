@@ -56,23 +56,32 @@ function partition_format_mount(){
 		echo "Error: $disk is not a valid block device."
 		exit 1
 		fi
+		disk_size=$(lsblk -d $chdisk -o SIZE|sed 'd1')
 		ram_size=$(cat /proc/memingo|grep MemTotal|awk '{print$2}')
 		swap_part=""
-		if [[ $ram_size -gt 3900000 ]];then
-			swap_part="n
-			
-			
-			+4G
-			t
-			swap"
-			
-		elif [[ $ram_size -gt 900000 && $ram_size -lt 3900000 ]]
-			swap_part="n
-			
-			
-			+4G
-			t
-			swap"
+		root_part=""
+		if [[ $disk_size -gt 20 ]];then 
+			if [[ $ram_size -gt 3900000 ]];then
+				swap_part="n
+				
+				
+				+4G
+				t
+				swap"
+				
+			elif [[ $ram_size -gt 900000 && $ram_size -lt 3900000  ]]
+				swap_part="n
+				
+				
+				+4G
+				t
+				swap"
+			else 
+				swap_part=
+			fi
+		else
+			swap_part=
+		fi
 		fdisk "$disk" <<EOF
 g
 n
@@ -84,6 +93,12 @@ uefi
 $swap_part
 n
 
+
+
+q
+EOF
+
+partition_format_mount()
 
 
 
@@ -115,4 +130,4 @@ n
 	#
 	#
 	#
-}
+
